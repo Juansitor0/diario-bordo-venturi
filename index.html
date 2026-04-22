@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário de Bordo - Registro de Laboratório</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --paper: #ffffff;
+            --ink: #1e293b;
+            --accent: #2563eb;
+            --grid: #e2e8f0;
+            --note-bg: #fefce8;
+            --note-border: #facc15;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #94a3b8;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 50px 0;
+            gap: 40px;
+        }
+
+        /* Estilo da Ficha Técnica */
+        .page {
+            width: 1000px;
+            min-height: 800px;
+            background-color: var(--paper);
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 25px 25px;
+            border: 2px solid #475569;
+            box-shadow: 15px 15px 0px rgba(0,0,0,0.1);
+            padding: 60px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+            margin-bottom: 40px;
+        }
+
+        /* Selo de Documento */
+        .stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border: 3px double #ef4444;
+            color: #ef4444;
+            padding: 5px 15px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            transform: rotate(5deg);
+            text-transform: uppercase;
+            font-size: 14px;
+            z-index: 10;
+        }
+
+        .header {
+            border-bottom: 4px solid var(--ink);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            text-transform: uppercase;
+        }
+
+        .metadata {
+            display: flex;
+            gap: 20px;
+            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 5px;
+            color: #64748b;
+        }
+
+        /* Conteúdo */
+        .content {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            flex-grow: 1;
+        }
+
+        .text-block h2 {
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--accent);
+            display: inline-block;
+        }
+
+        .text-block p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .list-item {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .list-item::before {
+            content: '■';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-size: 10px;
+            top: 4px;
+        }
+
+        /* Área de Imagem */
+        .sketch-box {
+            border: 2px solid #cbd5e1;
+            background: #f1f5f9;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .sketch-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        /* Grid de Materiais (4 fotos) */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 8px;
+            padding: 8px;
+            background: #e2e8f0;
+        }
+
+        .grid-item {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .grid-item span {
+            position: absolute;
+            bottom: 2px;
+            font-size: 9px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            padding: 1px 4px;
+            font-family: 'JetBrains Mono';
+        }
+
+        .sketch-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            background: rgba(30, 41, 59, 0.9);
+            color: white;
+            padding: 6px;
+            text-align: center;
+            z-index: 5;
+        }
+
+        /* Notas e Equações */
+        .observation-note {
+            background-color: var(--note-bg);
+            border: 1px solid var(--note-border);
+            padding: 15px;
+            font-size: 13px;
+            font-style: italic;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .observation-note::before {
+            content: 'OBSERVAÇÃO TÉCNICA:';
+            display: block;
+            font-weight: bold;
+            font-style: normal;
+            font-size: 11px;
+            margin-bottom: 5px;
+            color: #a16207;
+        }
+
+        .math-block {
+            background: #f1f5f9;
+            padding: 15px;
+            border-left: 5px solid var(--ink);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+
+        /* Fallback para imagem não carregada */
+        img:after {
+            content: "Aguardando carregamento da imagem...";
+            display: block;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- PÁGINA 1: MATERIAIS -->
+    <div class="page">
+        <div class="stamp">REGISTRO DE CAMPO</div>
+        <div class="header">
+            <h1>01. Memorial de Materiais e Insumos</h1>
+            <div class="metadata">
+                <span>PROJETO: VENTURI SUSTENTÁVEL</span> | <span>DOC: 01/04</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="text-block">
+                <h2>Lista de Componentes</h2>
+                <p>Para a construção deste medidor de vazão, selecionamos materiais que permitem observar o princípio de Bernoulli de forma didática.</p>
+                <div class="list-item"><strong>Células de Fluxo:</strong> Garrafas PET de 2L (Polietileno Tereftalato).</div>
+                <div class="list-item"><strong>Garganta:</strong> Segmento de tubo de PVC rígido.</div>
+                <div class="list-item"><strong>Manômetro:</strong> Mangueira de nível transparente (5/16").</div>
+                <div class="list-item"><strong>Selagem:</strong> Massa Epóxi de alta densidade (Durepoxi).</div>
+                
+                <div class="observation-note">
+                    A transparência da mangueira e das garrafas é vital para a instrumentação visual do desnível manométrico durante o teste de fluxo.
+                </div>
+            </div>
+            <div class="sketch-box grid-4">
+                <div class="grid-item">
+                    <img src="img1.jpg" alt="PET">
+                    <span>DURAPOXI</span>
+                </div>
+                <div class="grid-item">
+                    <img src="img2.png" alt="PVC">
+                    <span>CANO PVC</span>
+                </div>
+                <div class="grid-item">
+                    <img src="img3.png" alt="Mangueira">
+                    <span>GARRAFA PET</span>
+                </div>
+                <div class="grid-item">
+                    <img src="img4.jpg" alt="Epóxi">
+                    <span>MANGEUIRA DE NIVEL</span>
+                </div>
+                <div class="sketch-label">FIG 01: MATERIAIS SELECIONADOS</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 2: MONTAGEM -->
+    <div class="page">
+        <div class="header">
+            <h1>02. Relatório de Execução e Montagem</h1>
+            <div class="metadata">
+                <span>PROJETO: VENTURI SUSTENTÁVEL</span> | <span>DOC: 02/04</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="sketch-box" style="height: 500px;">
+                <img src="img5.jpeg" alt="Protótipo Montado">
+                <div class="sketch-label">FIG 02: VISTA DO PROTÓTIPO FINALIZADO</div>
+            </div>
+            <div class="text-block">
+                <h2>Metodologia Construtiva</h2>
+                <p>O processo focou na garantia da estanqueidade para que o vácuo parcial na garganta fosse preservado.</p>
+                <div class="list-item">Corte preciso dos gargalos para encaixe do cano.</div>
+                <div class="list-item">Vedação com massa epóxi em torno dos bicos e furos da mangueira.</div>
+                <div class="list-item">Alinhamento axial para evitar fluxos turbulentos.</div>
+                
+                <div class="observation-note" style="border-left-color: #ef4444;">
+                    <strong>FALHA CORRIGIDA:</strong> Na montagem inicial, notou-se entrada de ar pela junta da mangueira. Aplicamos uma camada extra de Durepoxi (massa cinza visível na FIG 02) para selar o sistema.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 3: ANÁLISE FÍSICA -->
+    <div class="page">
+        <div class="header">
+            <h1>03. Fundamentação da Hidrodinâmica</h1>
+            <div class="metadata">
+                <span>PROJETO: VENTURI SUSTENTÁVEL</span> | <span>DOC: 03/04</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="text-block">
+                <h2>Dinâmica de Fluidos</h2>
+                <p>Ao fluir da seção larga para a garganta, a água sofre uma aceleração compensatória devido à redução de área.</p>
+                
+                <p><strong>Conservação de Massa:</strong></p>
+                <div class="math-block">A₁ * v₁ = A₂ * v₂</div>
+                
+                <p><strong>Equação de Bernoulli:</strong></p>
+                <div class="math-block">P₁ + ½ρv₁² = P₂ + ½ρv₂²</div>
+                
+                <p>O desnível observado na mangueira é a prova física de que $P_2 < P_1$.</p>
+            </div>
+            <div class="sketch-box">
+                <img src="img6.jpeg" alt="Manômetro em Arco">
+                <div class="sketch-label">FIG 03: DETALHE DO ARCO INSTRUMENTAL</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PÁGINA 4: PROTOCOLO DE MEDIÇÃO -->
+    <div class="page">
+        <div class="header">
+            <h1>04. Coleta e Tratamento de Dados</h1>
+            <div class="metadata">
+                <span>PROJETO: VENTURI SUSTENTÁVEL</span> | <span>DOC: 04/04</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="sketch-box" style="height: 380px;">
+                <img src="img7.jpeg" alt="Seção PET">
+                <div class="sketch-label">FIG 04: DETALHE DA SEÇÃO TRANSVERSAL A1</div>
+            </div>
+            <div class="text-block">
+                <h2>Medições Possíveis</h2>
+                <p>Para determinar a vazão real (Q), as seguintes medidas devem ser anotadas durante o fluxo:</p>
+                <div class="list-item">$\Delta h$ (cm): Desnível na coluna d'água.</div>
+                <div class="list-item">$D_1, D_2$: Diâmetros internos das seções.</div>
+
+                <div class="math-block" style="background: #1e293b; color: #60a5fa;">
+                    Q = A₁ * √[ (2 * ΔP) / (ρ * ((A₁/A₂)² - 1)) ]
+                </div>
+                
+                <div class="observation-note">
+                    A transição geométrica da PET (FIG 04) funciona como um redutor cônico, aproximando o comportamento do fluido ao de um modelo ideal de Venturi.
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
