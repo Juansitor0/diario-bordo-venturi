@@ -6,6 +6,11 @@
     <title>Diário de Bordo - Registro de Laboratório</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Script para renderizar equações matemáticas (MathJax) -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
     <style>
         :root {
             --paper: #ffffff;
@@ -214,13 +219,13 @@
 
         .math-block {
             background: #f1f5f9;
-            padding: 15px;
+            padding: 20px;
             border-left: 5px solid var(--ink);
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-            text-align: center;
             margin: 15px 0;
-            font-size: 16px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Fallback para imagem não carregada */
@@ -325,12 +330,16 @@
                 <p>Ao fluir da seção larga para a garganta, a água sofre uma aceleração compensatória devido à redução de área.</p>
                 
                 <p><strong>Conservação de Massa:</strong></p>
-                <div class="math-block">A₁ * v₁ = A₂ * v₂</div>
+                <div class="math-block">
+                    \[ A_1 \cdot v_1 = A_2 \cdot v_2 \]
+                </div>
                 
                 <p><strong>Equação de Bernoulli:</strong></p>
-                <div class="math-block">P₁ + ½ρv₁² = P₂ + ½ρv₂²</div>
+                <div class="math-block">
+                    \[ P_1 + \frac{1}{2}\rho v_1^2 = P_2 + \frac{1}{2}\rho v_2^2 \]
+                </div>
                 
-                <p>O desnível observado na mangueira é a prova física de que $P_2 < P_1$.</p>
+                <p>O desnível observado na mangueira é a prova física de que \( P_2 < P_1 \).</p>
             </div>
             <div class="sketch-box">
                 <img src="img6.jpeg" alt="Manômetro em Arco">
@@ -356,11 +365,11 @@
             <div class="text-block">
                 <h2>Medições Possíveis</h2>
                 <p>Para determinar a vazão real (Q), as seguintes medidas devem ser anotadas durante o fluxo:</p>
-                <div class="list-item">$\Delta h$ (cm): Desnível na coluna d'água.</div>
-                <div class="list-item">$D_1, D_2$: Diâmetros internos das seções.</div>
+                <div class="list-item">\( \Delta h \) (cm): Desnível na coluna d'água.</div>
+                <div class="list-item">\( D_1, D_2 \): Diâmetros internos das seções.</div>
 
-                <div class="math-block" style="background: #1e293b; color: #60a5fa;">
-                    Q = A₁ * √[ (2 * ΔP) / (ρ * ((A₁/A₂)² - 1)) ]
+                <div class="math-block" style="background: #1e293b; color: #ffffff;">
+                    \[ Q = A_1 \cdot \sqrt{ \frac{2 \cdot \Delta P}{\rho \cdot \left( \left( \frac{A_1}{A_2} \right)^2 - 1 \right)} } \]
                 </div>
                 
                 <div class="observation-note">
